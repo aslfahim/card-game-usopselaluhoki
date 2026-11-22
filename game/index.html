@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mycelium War — a fungal faction card battle</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">🍄 MYCELIUM WAR</div>
+    <div class="turn-info"><span id="turn-label">Your turn</span> · <span id="round-label">Round 1</span></div>
+    <div class="sound-toggle"><button id="sound-btn" type="button" title="Toggle sound (M)">♪ Sound: on</button></div>
+  </header>
+
+  <main id="table">
+    <!-- Rival side -->
+    <section id="rival-zone" class="side rival">
+      <div class="side-head">
+        <span class="avatar crimson">◉</span>
+        <div class="side-id">
+          <strong>Crimson Cap Colony</strong>
+          <span class="sub">Rival mycelium · AI opponent</span>
+        </div>
+        <div class="meters">
+          <div class="meter life"><span class="meter-label">♥ LIFE</span><span id="rival-life" class="meter-value">20</span><div class="bar"><div id="rival-life-bar" class="fill life-fill"></div></div></div>
+          <div class="meter net"><span class="meter-label">✿ NETWORK</span><span id="rival-net" class="meter-value">0</span></div>
+          <div class="meter deck"><span class="meter-label">▤ DECK</span><span id="rival-deck" class="meter-value">25</span></div>
+        </div>
+      </div>
+      <div id="rival-hand" class="hand rival-hand" aria-label="Opponent hand"></div>
+    </section>
+
+    <!-- The shared soil board -->
+    <section id="board-wrap">
+      <div id="board-labels">
+        <span class="zone-tag rival-tag">RIVAL SOIL</span>
+        <span id="board-hint">Click a card, then click a glowing plot to plant it</span>
+        <span class="zone-tag your-tag">YOUR SOIL</span>
+      </div>
+      <div id="board" class="board" aria-label="Mycelium board"></div>
+      <div id="log" class="log" aria-live="polite"></div>
+    </section>
+
+    <!-- Player side -->
+    <section id="player-zone" class="side yours">
+      <div class="side-head">
+        <span class="avatar emerald">✿</span>
+        <div class="side-id">
+          <strong>Verdant Spore Colony</strong>
+          <span class="sub">You · the green mycelium</span>
+        </div>
+        <div class="meters">
+          <div class="meter life"><span class="meter-label">♥ LIFE</span><span id="player-life" class="meter-value">20</span><div class="bar"><div id="player-life-bar" class="fill life-fill"></div></div></div>
+          <div class="meter net"><span class="meter-label">✿ NETWORK</span><span id="player-net" class="meter-value">0</span></div>
+          <div class="meter nut"><span class="meter-label">◈ NUTRIENTS</span><span id="player-nut" class="meter-value">3 / 3</span></div>
+          <div class="meter deck"><span class="meter-label">▤ DECK</span><span id="player-deck" class="meter-value">25</span></div>
+        </div>
+      </div>
+      <div id="player-hand" class="hand player-hand" aria-label="Your hand"></div>
+      <div id="controls">
+        <button id="end-turn" type="button">End Turn — Grow! ⏎</button>
+        <button id="restart" type="button">Restart (R)</button>
+        <span id="help">Keys: 1–7 select card · Enter end turn · Esc cancel · M sound</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Title overlay -->
+  <div id="title-screen" class="overlay">
+    <div class="title-card">
+      <div class="title-shroom">🍄</div>
+      <h1>MYCELIUM WAR</h1>
+      <p class="tagline">Two fungal colonies. One patch of soil.<br>Outgrow the rival — spore by spore.</p>
+      <div class="howto">
+        <div><b>1 · Plant</b> — play spore cards onto your soil or the wild middle row. Each costs nutrients.</div>
+        <div><b>2 · Chain</b> — spores beside the same suit grow +1 power each. Linked suits spread fast.</div>
+        <div><b>3 · Outgrow</b> — after every round the stronger network drains the weaker colony's life.</div>
+        <div><b>☠ Toxin</b> — toxin cards dissolve a rival node instead of planting. <b>✿ Bloom</b> hits hard but never chains.</div>
+      </div>
+      <button id="start-btn" type="button">▶ Start the War</button>
+      <p class="fine">First colony to drain the other to 0 life wins. A fungal faction battle — original art, names and rules.</p>
+    </div>
+  </div>
+
+  <!-- End overlays -->
+  <div id="end-screen" class="overlay hidden">
+    <div class="title-card end-card">
+      <div id="end-emoji" class="title-shroom">🏆</div>
+      <h1 id="end-title">VICTORY</h1>
+      <p id="end-text" class="tagline"></p>
+      <div id="end-stats" class="end-stats"></div>
+      <button id="again-btn" type="button">↻ Play Again</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

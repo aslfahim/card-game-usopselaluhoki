@@ -1,0 +1,172 @@
+/* Mycelium War — table styling. Dark forest floor, glowing spores, chunky readable cards. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: "Segoe UI", Verdana, Geneva, sans-serif;
+  background: radial-gradient(1200px 700px at 50% -10%, #2c4a2a 0%, #16240f 55%, #0b1208 100%);
+  color: #eef6df;
+  overflow-x: hidden;
+}
+#app { max-width: 1180px; margin: 0 auto; padding: 4px 14px 10px; }
+
+#topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 4px 6px; border-bottom: 2px solid #3d5c33;
+}
+.brand { font-size: 22px; font-weight: 900; letter-spacing: 2px; color: #b8f28a; text-shadow: 0 0 14px #6fbf3f; }
+.turn-info { font-size: 15px; font-weight: 700; color: #ffe9a8; }
+#sound-btn { background: #243d1e; color: #d9f2c2; border: 1px solid #4c6b3d; border-radius: 8px; padding: 6px 10px; cursor: pointer; font-weight: 700; }
+
+#table { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.side {
+  background: linear-gradient(180deg, rgba(30,48,22,.85), rgba(18,30,13,.9));
+  border: 2px solid #415f36; border-radius: 14px; padding: 6px 12px;
+}
+.side.rival { border-color: #6e2f2f; background: linear-gradient(180deg, rgba(58,22,22,.85), rgba(30,13,13,.9)); }
+.side-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.avatar { font-size: 28px; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; }
+.avatar.emerald { background: #1f4d1a; border: 2px solid #7ddb4f; }
+.avatar.crimson { background: #4d1a1a; border: 2px solid #e06060; }
+.side-id strong { font-size: 18px; display: block; }
+.side-id .sub { font-size: 12px; color: #b9c9a8; }
+.meters { margin-left: auto; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.meter { display: flex; align-items: center; gap: 6px; }
+.meter-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; color: #cfe3b6; }
+.meter-value { font-size: 19px; font-weight: 900; color: #fff; min-width: 28px; text-align: center; }
+.meter .bar { width: 90px; height: 10px; background: #0a1408; border: 1px solid #55703f; border-radius: 6px; overflow: hidden; }
+.meter .fill { height: 100%; background: linear-gradient(90deg, #ff5a5a, #ffb347); width: 100%; transition: width .4s; }
+.meter .fill.life-fill { background: linear-gradient(90deg, #e23b3b, #ff8a5a); }
+
+.hand { display: flex; gap: 8px; min-height: 100px; padding: 4px 2px 2px; align-items: flex-start; }
+.rival-hand { justify-content: center; }
+.player-hand { justify-content: center; flex-wrap: wrap; }
+
+/* ---- Cards ---- */
+.card {
+  width: 96px; min-height: 88px; border-radius: 10px; padding: 4px 6px 4px;
+  background: linear-gradient(180deg, #fdf6e3, #efe3c2);
+  color: #241d12; border: 2px solid #8a7a52; cursor: pointer; position: relative;
+  box-shadow: 0 3px 0 rgba(0,0,0,.45); transition: transform .18s ease, box-shadow .18s ease;
+  user-select: none; flex: 0 0 auto;
+}
+.card:hover { transform: translateY(-8px) rotate(-1deg); box-shadow: 0 10px 16px rgba(0,0,0,.55); }
+.card.selected { transform: translateY(-12px); outline: 3px solid #ffe14d; box-shadow: 0 0 18px #ffe14d; }
+.card.unaffordable { opacity: .55; filter: grayscale(.5); }
+.card .cost {
+  position: absolute; top: -8px; left: -8px; width: 28px; height: 28px; border-radius: 50%;
+  background: #2b6cb0; color: #fff; font-weight: 900; font-size: 15px;
+  display: grid; place-items: center; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,.5);
+}
+.card .suit-glyph { font-size: 20px; line-height: 1; text-align: center; display: block; }
+.card .card-name { font-size: 11.5px; font-weight: 900; text-align: center; margin-top: 1px; min-height: 24px; line-height: 1.15; }
+.card .card-power { font-size: 15px; font-weight: 900; text-align: center; }
+.card .card-power small { font-size: 10px; font-weight: 700; color: #6b5a35; }
+.card .card-text { font-size: 9.5px; line-height: 1.2; text-align: center; color: #4a3f27; margin-top: 1px; }
+.card .suit-tag { text-align: center; font-size: 9px; font-weight: 800; letter-spacing: 1px; margin-top: 1px; }
+.card.suit-spore { border-color: #3f9e3f; } .card.suit-spore .suit-glyph, .card.suit-spore .suit-tag { color: #2c7a2c; }
+.card.suit-hypha { border-color: #7b4fd0; } .card.suit-hypha .suit-glyph, .card.suit-hypha .suit-tag { color: #6a3fb8; }
+.card.suit-bloom { border-color: #d0407e; } .card.suit-bloom .suit-glyph, .card.suit-bloom .suit-tag { color: #b32a66; }
+.card.suit-toxin { border-color: #c96a12; } .card.suit-toxin .suit-glyph, .card.suit-toxin .suit-tag { color: #a85408; }
+.card.back {
+  background: repeating-linear-gradient(45deg, #7a2e2e, #7a2e2e 10px, #5d2020 10px, #5d2020 20px);
+  border-color: #3d1414; cursor: default;
+}
+.card.back::after { content: "◉"; color: #ffb3b3; font-size: 34px; position: absolute; inset: 0; display: grid; place-items: center; }
+.card.back:hover { transform: none; box-shadow: 0 3px 0 rgba(0,0,0,.45); }
+.card.dealt { animation: dealIn .45s ease backwards; }
+@keyframes dealIn { from { transform: translateY(-26px) rotate(6deg); opacity: 0; } to { transform: translateY(0) rotate(0); opacity: 1; } }
+.card.flipped { animation: flipIn .4s ease; }
+@keyframes flipIn { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
+
+/* ---- Board ---- */
+#board-wrap {
+  background: linear-gradient(180deg, #2a1f14, #1d160e);
+  border: 2px solid #6b5232; border-radius: 14px; padding: 6px 12px;
+}
+#board-labels { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.zone-tag { font-size: 11px; font-weight: 900; letter-spacing: 2px; padding: 3px 8px; border-radius: 6px; }
+.rival-tag { background: #5d2020; color: #ffb3b3; }
+.your-tag { background: #1f4d1a; color: #b8f28a; }
+#board-hint { font-size: 13px; color: #ffe9a8; font-weight: 700; text-align: center; }
+.board {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+}
+.plot {
+  aspect-ratio: 2.8; border-radius: 10px; border: 2px dashed #6b5a35;
+  background: radial-gradient(circle at 50% 40%, #3a2d1c, #241b10);
+  display: grid; place-items: center; cursor: default; position: relative;
+  transition: box-shadow .2s, border-color .2s, transform .2s;
+}
+.plot.row-rival { border-color: #7a4444; }
+.plot.row-neutral { border-color: #8a7a52; }
+.plot.row-yours { border-color: #4c7a3d; }
+.plot .plot-label { font-size: 10px; color: #9c8a62; letter-spacing: 1px; font-weight: 800; }
+.plot.legal { border-style: solid; border-color: #ffe14d; box-shadow: 0 0 14px rgba(255,225,77,.55); cursor: pointer; animation: pulse 1s infinite; }
+.plot.legal:hover { transform: scale(1.05); }
+@keyframes pulse { 50% { box-shadow: 0 0 22px rgba(255,225,77,.9); } }
+.plot.targetable { border-style: solid; border-color: #ff7a3d; box-shadow: 0 0 14px rgba(255,122,61,.6); cursor: pointer; }
+.plot.targetable:hover { transform: scale(1.05); }
+.plot .node { animation: popIn .35s ease; text-align: center; width: 100%; }
+@keyframes popIn { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.node .node-glyph { font-size: 24px; line-height: 1; display: block; }
+.node .node-power { font-size: 16px; font-weight: 900; color: #fff; text-shadow: 0 1px 3px #000; }
+.node .node-power small { font-size: 10px; color: #ffe9a8; }
+.node .node-name { font-size: 10px; font-weight: 800; color: #f0e6cc; }
+.node .chain { font-size: 10px; font-weight: 900; color: #ffe14d; }
+.plot .node.owned-rival .node-glyph { filter: hue-rotate(140deg) saturate(1.4); }
+.plot .node.owned-rival .node-name { color: #ffc9c9; }
+
+.log {
+  margin-top: 4px; min-height: 24px; max-height: 28px; overflow-y: auto;
+  font-size: 12.5px; line-height: 1.45; color: #d8e8c0;
+  background: rgba(0,0,0,.3); border-radius: 8px; padding: 6px 10px;
+}
+.log div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- Controls ---- */
+#controls { display: flex; gap: 10px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+#controls button {
+  font-size: 15px; font-weight: 900; padding: 8px 18px; border-radius: 10px; cursor: pointer;
+  border: 2px solid #7ddb4f; background: linear-gradient(180deg, #3f7a2c, #2c5a1e); color: #eaffd0;
+}
+#controls button:hover { filter: brightness(1.2); }
+#restart { border-color: #8a7a52 !important; background: linear-gradient(180deg, #4a3f27, #332a17) !important; color: #efe3c2 !important; }
+#help { font-size: 12px; color: #b9c9a8; }
+#end-turn:disabled { opacity: .5; cursor: default; }
+
+/* ---- Overlays ---- */
+.overlay {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  background: rgba(5,10,4,.82); backdrop-filter: blur(3px); padding: 16px;
+}
+.overlay.hidden { display: none; }
+.title-card {
+  max-width: 640px; width: 100%; text-align: center; padding: 28px 30px;
+  background: linear-gradient(180deg, #20381a, #12200d);
+  border: 3px solid #7ddb4f; border-radius: 20px; box-shadow: 0 0 60px rgba(125,219,79,.35);
+}
+.title-card h1 { font-size: 52px; letter-spacing: 4px; color: #b8f28a; text-shadow: 0 0 22px #6fbf3f; margin: 6px 0 10px; }
+.title-shroom { font-size: 64px; line-height: 1; }
+.tagline { font-size: 17px; line-height: 1.5; color: #e6f4d4; }
+.howto { text-align: left; margin: 18px auto 6px; display: grid; gap: 8px; font-size: 14px; line-height: 1.45; color: #d5e8bd; }
+.howto b { color: #ffe14d; }
+.title-card button, .end-card button {
+  margin-top: 18px; font-size: 20px; font-weight: 900; padding: 13px 34px; border-radius: 12px;
+  border: 2px solid #ffe14d; background: linear-gradient(180deg, #5a8a2c, #3a5c1a); color: #fff; cursor: pointer;
+}
+.title-card button:hover { filter: brightness(1.2); }
+.fine { margin-top: 14px; font-size: 12px; color: #9db38a; }
+.end-card { border-color: #ffe14d; }
+.end-card h1 { font-size: 46px; }
+.end-stats { margin-top: 14px; display: grid; gap: 4px; font-size: 15px; color: #ffe9a8; font-weight: 700; }
+#end-screen.lost .title-card { border-color: #e06060; box-shadow: 0 0 60px rgba(224,96,96,.35); }
+#end-screen.lost h1 { color: #ff9a9a; text-shadow: 0 0 22px #a03030; }
+.win-flourish { animation: flourish .8s ease; }
+@keyframes flourish { 0% { transform: scale(.6) rotate(-6deg); } 60% { transform: scale(1.15) rotate(3deg); } 100% { transform: scale(1); } }
+
+@media (max-width: 760px) {
+  .card { width: 84px; min-height: 100px; }
+  .brand { font-size: 19px; }
+  .title-card h1 { font-size: 34px; }
+  .meters { gap: 8px; }
+}
